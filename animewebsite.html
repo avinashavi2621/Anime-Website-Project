@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AnimeVerse - Animated Anime Hub</title>
   <link rel="stylesheet" href="style.css">
-  
+  <script>
+    // Authentication Guard
+    if (localStorage.getItem('isLoggedIn') !== 'true') {
+      window.location.replace('./index.html');
+    }
+  </script>
 </head>
 
 <body>
@@ -30,6 +35,15 @@
 
     <div class="search-box">
       <input type="text" placeholder="Search anime..." id="searchInput" />
+    </div>
+
+    <!-- USER Profile Badge -->
+    <div class="user-profile">
+      <div class="user-avatar" id="userAvatar">U</div>
+      <div class="user-info">
+        <span class="user-email" id="userEmail" title="">user@example.com</span>
+      </div>
+      <button class="logout-btn" id="logoutBtn">Logout</button>
     </div>
   </header>
 
@@ -93,36 +107,36 @@
         <div class="section-title">🎬 Latest Episodes</div>
 
         <div class="episode-grid" id="episodeGrid">
-          <a href="aot.html" class="episode-card">
+          <a href="episodes/aot.html" class="episode-card">
             <img src="images/AOT.jpg" />
             <h4>Attack on Titan</h4>
             <p>Episode 88 - The Final Battle</p>
           </a>
           
-          <a href="onepiece.html" class="episode-card">
+          <a href="episodes/onepiece.html" class="episode-card">
             <img src="images/one piece.jpeg" />
             <h4>One Piece</h4>
             <p>Episode 1094 - Gear 5 Returns</p>
           </a>
 
-          <a href="jjk.html" class="episode-card">
+          <a href="episodes/jjk.html" class="episode-card">
             <img src="images/jjk.webp" />
             <h4>Jujutsu Kaisen</h4>
             <p>Episode 23</p>
           </a>
 
-          <a href="sololeveling.html" class="episode-card">
+          <a href="episodes/sololeveling.html" class="episode-card">
             <img src="images/solo leveling.jpg" />
             <h4>solo leveling</h4>
             <p>Episode 12</p>
           </a>
-          <a href="demonslayer.html" class="episode-card">
+          <a href="episodes/demonslayer.html" class="episode-card">
             <img src="images/demon slayer.jpg" />
             <h4>Demon Slayer</h4>
             <p>Episode 24</p>
           </a>
 
-          <a href="naruto.html" class="episode-card">
+          <a href="episodes/naruto.html" class="episode-card">
             <img src="images/naruto.jpg" />
             <h4>Naruto</h4>
             <p>Episode 164</p>
@@ -140,18 +154,18 @@
         <div class="section-title">🎭 Genres</div>
 
         <div class="genre-list">
-          <a class="genre" href="action.html">Action</a>
-          <a class="genre" href="adventure.html">Adventure</a>
-          <a class="genre" href="romance.html">Romance</a>
-          <a class="genre" href="comedy.html">Comedy</a>
-          <a class="genre" href="fantasy.html">Fantasy</a>
-          <a class="genre" href="horror.html">Horror</a>
-          <a class="genre" href="mystery.html">Mystery</a>
-          <a class="genre" href="isekai.html">Isekai</a>
-          <a class="genre" href="scifi.html">Sci-Fi</a>
-          <a class="genre" href="drama.html">Drama</a>
-          <a class="genre" href="sports.html">Sports</a>
-          <a class="genre" href="sliceoflife.html">Slice of Life</a>
+          <a class="genre" href="genres/action.html">Action</a>
+          <a class="genre" href="genres/adventure.html">Adventure</a>
+          <a class="genre" href="genres/romance.html">Romance</a>
+          <a class="genre" href="genres/comedy.html">Comedy</a>
+          <a class="genre" href="genres/fantasy.html">Fantasy</a>
+          <a class="genre" href="genres/horror.html">Horror</a>
+          <a class="genre" href="genres/mystery.html">Mystery</a>
+          <a class="genre" href="genres/isekai.html">Isekai</a>
+          <a class="genre" href="genres/scifi.html">Sci-Fi</a>
+          <a class="genre" href="genres/drama.html">Drama</a>
+          <a class="genre" href="genres/sports.html">Sports</a>
+          <a class="genre" href="genres/sliceoflife.html">Slice of Life</a>
         </div>
         
       <!-- TRENDING -->
@@ -233,6 +247,26 @@
     }, { threshold: 0.15 });
 
     cards.forEach(card => observer.observe(card));
+
+    // USER PROFILE LOGIC
+    const userEmailSpan = document.getElementById("userEmail");
+    const userAvatarDiv = document.getElementById("userAvatar");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if (userEmailSpan && userAvatarDiv) {
+      const email = localStorage.getItem("userEmail") || "User";
+      userEmailSpan.textContent = email;
+      userEmailSpan.title = email;
+      userAvatarDiv.textContent = email.charAt(0).toUpperCase();
+    }
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", function() {
+        localStorage.removeItem("isLoggedIn");
+        localStorage.removeItem("userEmail");
+        window.location.replace("./index.html");
+      });
+    }
   </script>
 
 </body>
